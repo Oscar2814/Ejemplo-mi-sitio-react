@@ -49,6 +49,8 @@ function App() {
     return (
       <div className="App">
         <form onSubmit={handleLogin}>
+        <h1>Hola desde Netlify con despliegue continuo</h1>
+
           <h2>Iniciar sesión</h2>
           <input
             type="text"
