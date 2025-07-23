@@ -1,23 +1,92 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('access_token'));
+  const [tasks, setTasks] = useState([]);
+
+  // Estados para login
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Cargar tareas si hay token válido
+  useEffect(() => {
+    if (token) {
+      axios.get('https://ejemplo-mi-sitio-react-phic.onrender.com/api/tasks/', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => setTasks(res.data))
+      .catch(err => {
+        console.error(err);
+        logout();
+      });
+    }
+  }, [token]);
+
+  // Función para login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    axios.post('https://ejemplo-mi-sitio-react-phic.onrender.com/api/token/', { username, password })
+      .then(res => {
+        setToken(res.data.access);
+        localStorage.setItem('access_token', res.data.access);
+      })
+      .catch(err => alert('Login fallido'));
+  };
+
+  // Función para logout
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem('access_token');
+    setTasks([]);
+    setUsername('');
+    setPassword('');
+  };
+
+  if (!token) {
+    // Mostrar formulario login
+    return (
+      <div className="App">
+        <form onSubmit={handleLogin}>
+          <h2>Iniciar sesión</h2>
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+    );
+  }
+
+  // Mostrar tareas y botón logout
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Lista de Tareas</h1>
+      
+      <ul>
+        <li>Estudiar React</li>
+        <li>Leer documentación de Django</li>
+        <li>Diseñar base de datos</li>
+        <li>Preparar presentación</li>
+        
+           {tasks.map(task => (
+          <li key={task.id}>{task.title}</li>
+            ))}
+
+      </ul>
+      <center><button onClick={logout}>Cerrar sesión</button></center>
     </div>
   );
 }
