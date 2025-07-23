@@ -55,6 +55,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+ALLOWED_HOSTS = [
+    'ejemplo-mi-sitio-react-phic.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    # otros hosts o dominios que uses
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
