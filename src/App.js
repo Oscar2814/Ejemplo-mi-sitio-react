@@ -75,19 +75,35 @@ function App() {
   // Mostrar tareas y botón logout
   return (
     <div className="App">
-      <h1>Lista de Tareas</h1>
+      <h1>Lista de Movies</h1>
       
-      <ul>
-        <li>Estudiar React</li>
-        <li>Leer documentación de Django</li>
-        <li>Diseñar base de datos</li>
-        <li>Preparar presentación</li>
-        
+      <ol>
+        <li>Titulo: The Shawshank</li>
+        <ul>
+        <li>Synopsis: Un banquero injustamaemteLeer documentación de Django encarcelado forma una poderosa amiatad</li>
+        <li>Duration: 142</li>
+        <li>Genere: Drama</li>
+        <li>Rating: 9.310</li>
+        </ul>
+        <li>Titulo: Parasite</li>
+        <ul>
+        <li>Synopsis: La historia gira en torno a la familia Kim, que vive en condiciones precarias en un semisótano.</li>
+        <li>Duration: 142</li>
+        <li>Genere: Drama</li>
+        <li>Rating: 9.310</li>
+        </ul>
+        <li>Titulo: The Godfather</li>
+        <ul>
+        <li>Synopsis: La trama sigue la historia de la poderosa familia mafiosa Corleone, en la Nueva York de mediados del siglo XX</li>
+        <li>Duration: 142</li>
+        <li>Genere: Drama</li>
+        <li>Rating: 9.310</li>
+        </ul>
            {tasks.map(task => (
           <li key={task.id}>{task.title}</li>
             ))}
 
-      </ul>
+      </ol>
       <center><button onClick={logout}>Cerrar sesión</button></center>
     </div>
   );
